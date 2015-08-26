@@ -22,7 +22,6 @@ let php_parent_error_open=1
 
 syntax on 
 
-
 set nocompatible
 filetype off
 if has('vim_starting')
@@ -32,6 +31,7 @@ if has('vim_starting')
   call neobundle#end()
 endif
 
+call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundle 'Shougo/neobunlde.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
@@ -42,6 +42,7 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'szw/vim-tags'
 NeoBundle 'scrooloose/nerdtree'
+call neobundle#end()
 
 filetype plugin on 
 filetype indent on 
