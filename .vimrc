@@ -1,72 +1,175 @@
-set number
-set title
-set tabstop=2
-set expandtab
-set shiftwidth=2
-set smartindent
-"set list
-"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-set virtualedit=block
-set history=50
-set hidden
-set whichwrap=b,s,[,],<,>
-set backspace=indent,eol,start
-set wildmenu
-
-
-let php_foldind=0
-let php_sql_query=1
-let php_htmlInStrings=1
-let php_parent_error_clone=1
-let php_parent_error_open=1
-
-syntax on 
-
-set nocompatible
-filetype off
+""""""""""""""""""""""""""""""
+" プラグインのセットアップ
+""""""""""""""""""""""""""""""
 if has('vim_starting')
+  set nocompatible               " Be iMproved
+
+  " Required:
   set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-  call neobundle#begin(expand('~/.vim/bundle'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundle 'Shougo/neobunlde.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/noecomplcache-snippets-complete'
-NeoBundle 'mattn/emmet-vim'
+" Required:
+call neobundle#begin(expand('$HOME/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" ファイルオープンを便利に
+NeoBundle 'Shougo/unite.vim'
+" Unite.vimで最近使ったファイルを表示できるようにする
+NeoBundle 'Shougo/neomru.vim'
+" ...省略
+
+" ファイルをtree表示してくれる
+NeoBundle 'scrooloose/nerdtree'
+
+" Rails向けのコマンドを提供する
+NeoBundle 'tpope/vim-rails'
+
+" Ruby向けにendを自動挿入してくれる
+NeoBundle 'tpope/vim-endwise'
+
+" コメントON/OFFを手軽に実行
+NeoBundle 'tomtom/tcomment_vim'
+
+" シングルクオートとダブルクオートの入れ替え等
+NeoBundle 'tpope/vim-surround'
+
+" インデントに色を付けて見やすくする
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+" ログファイルを色づけしてくれる
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+
+" 行末の半角スペースを可視化
+NeoBundle 'bronson/vim-trailing-whitespace'
+
+" Gitを便利に使う
+NeoBundle 'tpope/vim-fugitive'
+
+" taglist
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'szw/vim-tags'
-NeoBundle 'scrooloose/nerdtree'
+
 call neobundle#end()
 
-filetype plugin on 
-filetype indent on 
+" Required:
+filetype plugin indent on
 
-" neocomplcache-
-autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionary/php.dict filetype=php
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_manual_completion_start_length = 0
-let g:neocomplcache_caching_percent_in_statusline = 1
-let g:neocomplcache_enable_skip_completion = 1
-let g:neocomplcache_skip_input_time = '0.5'
-let g:neocomplcache_snippets_dir='~/.vim/snippets'
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+""""""""""""""""""""""""""""""
 
+" Unit.vimの設定
+""""""""""""""""""""""""""""""
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+""""""""""""""""""""""""""""""
 
-set tags=tags
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 1
+
+""""""""""""""""""""""""""""""
+" 自動的に閉じ括弧を入力
+""""""""""""""""""""""""""""""
+imap { {}<LEFT>
+imap [ []<LEFT>
+imap ( ()<LEFT>
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""
+" 各種オプションの設定
+""""""""""""""""""""""""""""""
+" スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
+"set noswapfile
+" カーソルが何行目の何列目に置かれているかを表示する
+set ruler
+" コマンドラインに使われる画面上の行数
+set cmdheight=2
+" エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
+set laststatus=2
+" ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
+set statusline=%<%f\%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+" ステータス行に現在のgitブランチを表示する
+"set statusline+=%{fugitive#statusline()}
+" ウインドウのタイトルバーにファイルのパス情報等を表示する
+set title
+" コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
+set wildmenu
+" 入力中のコマンドを表示する
+set showcmd
+" バックアップディレクトリの指定(でもバックアップは使ってない)
+" set backupdir=$HOME/.vimbackup
+" バッファで開いているファイルのディレクトリでエクスクローラを開始する(でもエクスプローラって使ってない)
+set browsedir=buffer
+" 小文字のみで検索したときに大文字小文字を無視する
+set smartcase
+" 検索結果をハイライト表示する
+set hlsearch
+" 暗い背景色に合わせた配色にする
+set background=dark
+" タブ入力を複数の空白入力に置き換える
+set expandtab
+" 検索ワードの最初の文字を入力した時点で検索を開始する
+set incsearch
+" 保存されていないファイルがあるときでも別のファイルを開けるようにする
+set hidden
+" 不可視文字を表示する
+set list
+" タブと行の続きを可視化する
+set listchars=tab:>\ ,extends:<
+" 行番号を表示する
+set number
+" 対応する括弧やブレースを表示する
+set showmatch
+" 改行時に前の行のインデントを継続する
+set autoindent
+" 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set smartindent
+" タブ文字の表示幅
+set tabstop=2
+" Vimが挿入するインデントの幅
+set shiftwidth=2
+" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set smarttab
+" カーソルを行頭、行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+" 構文毎に文字色を変化させる
+syntax on
+" カラースキーマの指定
+colorscheme desert
+" 行番号の色
+highlight LineNr ctermfg=darkyellow
+" grep検索の実行後にQuickFix Listを表示する
+autocmd QuickFixCmdPost *grep* cwindow
+" バックアップを作らなくする
+" set nobackup
+" taglist
+set tags=./tags
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_Show_One_File = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWindow = 1
-map <silent><leader>l :TlistToggle <CR>
-" let tlist_php_settings='php;f:function'
+""""""""""""""""""""""""""""""
 
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
+set mouse=n
+set ttymouse=xterm2
