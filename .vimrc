@@ -52,6 +52,9 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'szw/vim-tags'
 
+" smilのシンタックスハイライト
+NeoBundle 'slim-template/vim-slim'
+
 call neobundle#end()
 
 " Required:
