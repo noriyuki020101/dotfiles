@@ -113,3 +113,7 @@ fuction cd() {
 
 alias vimdiff=/usr/local/Cellar/macvim/7.4-73_1/bin/vimdiff
 alias vim=/usr/local/Cellar/macvim/7.4-73_1/bin/vim
+
+[[ -d ~/.rbenv  ]] && \
+  export PATH=${HOME}/.rbenv/bin:${PATH} && \
+  eval "$(rbenv init -)"
