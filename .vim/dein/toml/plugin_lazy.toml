@@ -1,0 +1,49 @@
+[[plugins]] # toml syntax
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'AtsushiSakai/myvim'
+on_ft = 'markdown'
+hook_source = 'source ~/.vim/dein/plugins/plugins-myvim.vim'
+
+[[plugins]]
+repo = 'kannokanno/previm'
+on_cmd = 'PrevimOpen'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
+hook_add = 'source ~/.vim/dein/plugins/plugins-unite.vim'
+
+#[[plugins]]
+#repo = 'Shougo/neocomplete.vim'
+#on_ft = 'ruby'
+#hook_add = 'source ~/.vim/dein/plugins/plugins-neocomplete.vim'
+
+
+#[[plugins]]
+#repo = 'osyo-manga/vim-monster'
+#on_ft = 'ruby'
+
+[[plugins]]
+repo = 'Shougo/neocomplcache.vim'
+on_ft = 'ruby'
+hook_add = 'source ~/.vim/dein/plugins/plugins-neocomplcache.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplcache-rsense.vim'
+on_ft = 'ruby'
+hook_add = 'source ~/.vim/dein/plugins/plugins-neocomplcache-rsense.vim'
+
+[[plugins]]
+repo = 'tpope/vim-endwise'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'marcus/rsense'
+on_ft = 'ruby'
